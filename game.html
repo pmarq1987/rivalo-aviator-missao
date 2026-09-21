@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B1931">
+<meta name="robots" content="noindex, nofollow">
+<title>Sandbox do mini-game | Missão Aviator</title>
+<link rel="stylesheet" href="game.css">
+<style>
+  :root{
+    --primary-orange:#F68C18; --primary-orange-strong:#EE8009;
+    --white:#FFFFFF; --ink:rgba(0,0,0,.88);
+    --bg-chrome-100:#0B1931; --bg-chrome-200:#12233F; --bg-chrome-300:#152A4D;
+    --ink-on-dark:var(--white); --ink-on-dark-secondary:rgba(255,255,255,.6);
+    --font-sans:"Inter LP",Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --text-body-lg-size:15px; --text-body-size:14px; --text-body-sm-size:13px;
+    --text-caption-size:12px; --text-caption-line-height:16px;
+    --space-2:6px; --space-3:8px; --space-4:16px; --space-5:24px; --space-6:32px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;padding:var(--space-5) var(--space-4) var(--space-6);
+    background:var(--bg-chrome-100);color:var(--white);
+    font-family:var(--font-sans);font-size:var(--text-body-size);
+  }
+  .sb{max-width:720px;margin:0 auto}
+  h1{font-size:18px;margin:0 0 var(--space-2)}
+  .sb__note{font-size:var(--text-caption-size);color:var(--ink-on-dark-secondary);margin:0 0 var(--space-5);line-height:17px}
+  .sb__stageBox{margin:0 auto var(--space-4);transition:max-width .15s ease}
+  .sb__tools{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:0 0 var(--space-4)}
+  .sb__tools button{
+    background:var(--bg-chrome-300);border:1px solid rgba(255,255,255,.18);color:var(--white);
+    border-radius:8px;min-height:38px;padding:0 12px;font-family:inherit;font-size:var(--text-body-sm-size);cursor:pointer;
+  }
+  .sb__tools button.is-on{background:var(--primary-orange);color:var(--ink);border-color:transparent;font-weight:700}
+  .sb__panel{
+    background:var(--bg-chrome-200);border:1px solid rgba(255,255,255,.1);
+    border-radius:10px;padding:var(--space-4);font-size:var(--text-body-sm-size);
+  }
+  .sb__panel h2{font-size:14px;margin:0 0 var(--space-3)}
+  table{width:100%;border-collapse:collapse;font-size:var(--text-caption-size)}
+  td{padding:5px 0;border-bottom:1px solid rgba(255,255,255,.08);color:var(--ink-on-dark-secondary)}
+  td:first-child{color:var(--white);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  td:last-child{text-align:right}
+  .tag-local{color:#7CFF9E;font-weight:700}
+  .tag-oficial{color:#7CC8FF;font-weight:700}
+  .tag-vetor{color:var(--primary-orange)}
+</style>
+</head>
+<body>
+<div class="sb">
+  <h1>Sandbox do mini-game</h1>
+  <p class="sb__note">
+    Só o jogo, sem a landing page. Solte os arquivos em <code>img/</code> e clique em
+    "Recarregar sprites" — cada slot que carregar substitui o desenho vetorial de reserva.
+    Especificações e prompts em <code>img/PROMPTS.md</code>.
+  </p>
+
+  <div class="sb__tools">
+    <button type="button" id="btnRestart">Reiniciar</button>
+    <button type="button" id="btnHit">Mostrar colisões</button>
+    <button type="button" id="btnReload">Recarregar sprites</button>
+    <button type="button" id="btnW375" class="is-on">375px</button>
+    <button type="button" id="btnW530">530px</button>
+    <button type="button" id="btnW720">720px</button>
+  </div>
+
+  <div class="sb__stageBox" id="stageBox" style="max-width:375px">
+    <div id="flyRoot"></div>
+  </div>
+
+  <div class="sb__panel">
+    <h2>Slots de arte</h2>
+    <table id="assetTable"></table>
+  </div>
+</div>
+
+<script src="game.js"></script>
+<script>
+(function(){
+  // o sandbox sempre tenta a arte de img/ — é onde ela é avaliada
+  var jogo = RivaloFly.mount(document.getElementById('flyRoot'), {
+    art: true,
+    onEvent: function(nome, dados){ console.log('[evento]', nome, dados); },
+    onWin:   function(){ console.log('[evento] vitória — na LP isto libera a promo'); }
+  });
+
+  function pintarTabela(){
+    var mapa = jogo.assets();
+    var linhas = Object.keys(mapa).map(function(k){
+      var v = mapa[k];
+      var cls = v === 'local' ? 'tag-local' : (v === 'oficial' ? 'tag-oficial' : 'tag-vetor');
+      return '<tr><td>' + k + '</td><td class="' + cls + '">' + v + '</td></tr>';
+    });
+    document.getElementById('assetTable').innerHTML = linhas.join('');
+  }
+  setTimeout(pintarTabela, 600);
+
+  document.getElementById('btnRestart').addEventListener('click', jogo.restart);
+
+  var hit = false;
+  document.getElementById('btnHit').addEventListener('click', function(){
+    hit = !hit;
+    jogo.hitboxes(hit);
+    this.classList.toggle('is-on', hit);
+  });
+
+  document.getElementById('btnReload').addEventListener('click', function(){
+    jogo.reloadArt();
+    setTimeout(pintarTabela, 600);
+  });
+
+  [['btnW375', 375], ['btnW530', 530], ['btnW720', 720]].forEach(function(par){
+    document.getElementById(par[0]).addEventListener('click', function(){
+      document.getElementById('stageBox').style.maxWidth = par[1] + 'px';
+      document.querySelectorAll('.sb__tools button').forEach(function(b){
+        if (b.id.indexOf('btnW') === 0) b.classList.remove('is-on');
+      });
+      this.classList.add('is-on');
+      window.dispatchEvent(new Event('resize'));
+    });
+  });
+
+  window.__fly = jogo.debug;   // piloto automático / calibragem pelo console
+})();
+</script>
+</body>
+</html>
