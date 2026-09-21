@@ -95,11 +95,13 @@ Dois ajustes foram calibrados vendo a arte em movimento, em vez de regerar arqui
 
 **Logo da marca:** `img/wordmark.svg` é o logo oficial da Rivalo em vetor, extraído do header da
 LP em produção (5 KB, branco, escala sem perder nitidez). O brand kit no Drive tem o mesmo logo em
-`rivalo-white-rgb.png`, mas raster de 33 KB — o vetor é melhor para canvas. Ele aparece em dois
-lugares:
+`rivalo-white-rgb.png`, mas raster de 33 KB — o vetor é melhor para canvas. Ele é a **marca d'água do fundo** (`CFG.logoBg`),
+reaparecendo ao longo do percurso.
 
-- **no totem do fim do trajeto**, desenhado sobre o painel vazio do `goal.png`;
-- **ao fundo, como marca d'água** (`CFG.logoBg`), reaparecendo ao longo do percurso.
+No **totem do fim do trajeto** vai o logo do **Aviator** (`img/aviator-wordmark.svg`, slot
+`goalLogo`) — é ele o destino da missão, e a marca da casa fica no cenário. A largura do logo é
+fração da largura do totem (`CFG.goalLogoW`), não do palco: dimensionar pelo palco fazia o
+wordmark extravasar a placa.
 
 `everyPx` e `parallax` do `logoBg` andam juntos: a camada percorre `goalX * parallax` no trajeto
 inteiro, então `everyPx` é o que define quantas vezes a marca cruza a tela — hoje ~2,7 vezes. Com

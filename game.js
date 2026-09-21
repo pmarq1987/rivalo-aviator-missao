@@ -88,7 +88,9 @@
     parallax:  { sky: 0.12, far: 0.30, mid: 0.55, ground: 1 },
     /* logo da marca ao fundo: marca d'água que reaparece ao longo do trajeto.
        alpha baixo de propósito — fundo não pode competir com avião e obstáculo. */
-    logoBg:    { alpha: 0.085, width: 0.44, everyPx: 430, parallax: 0.45, y: 0.33 }
+    logoBg:    { alpha: 0.085, width: 0.44, everyPx: 430, parallax: 0.45, y: 0.33 },
+    goalLogoW: 0.62      /* largura do logo no totem, em fração da largura do TOTEM
+                            (não do palco): a placa é só um pedaço da arte */
                           /* everyPx e parallax andam juntos: a camada percorre
                              goalX * parallax no trajeto, então everyPx define quantas
                              vezes a marca cruza a tela (hoje ~2,7 vezes) */
@@ -100,7 +102,8 @@
      Slot que não carrega vira desenho vetorial. */
   var MANIFEST = {
     plane:     { local: 'plane.png',    art: true, frames: 3 },
-    wordmark:  { local: 'wordmark.svg', art: true },   // logo oficial da Rivalo (vetor)
+    wordmark:  { local: 'wordmark.svg', art: true },           // logo da Rivalo -> marca d'agua ao fundo
+    goalLogo:  { local: 'aviator-wordmark.svg', art: true },   // logo do Aviator -> totem do fim do trajeto
     sky:       { local: 'sky.png',        tile: true, art: true },
     far:       { local: 'far.png',        tile: true, art: true },
     mid:       { local: 'mid.png',        tile: true, art: true },
@@ -452,10 +455,12 @@
       var sx = CFG.planeX * W + (goalX - scrollX);
       if (sx > W + 160 || sx < -160) return;
 
+      var larguraTotem = 0;
       if (art.goal){
         var img = art.goal.img;
         var h = px(airH() * 0.98);
         var w = px(img.naturalWidth * (h / img.naturalHeight));
+        larguraTotem = w;
         ctx.drawImage(img, px(sx - w / 2), px(airH() - h), w, h);
       } else {
         var grad = ctx.createLinearGradient(sx - 44, 0, sx + 44, 0);
@@ -477,10 +482,13 @@
         ctx.fill();
       }
 
-      // wordmark oficial por cima (nunca desenhado à mão / gerado por IA)
-      if (art.wordmark){
-        var wm = art.wordmark.img;
-        var ww = Math.min(104, W * 0.32);
+      // logo do Aviator no painel do totem: é o destino da missão.
+      // O logo da Rivalo não vem aqui — ele é a marca d'água do fundo (drawLogoBg).
+      if (art.goalLogo){
+        var wm = art.goalLogo.img;
+        var ww = larguraTotem
+          ? larguraTotem * CFG.goalLogoW      // cabe dentro da placa do totem
+          : Math.min(104, W * 0.32);          // sem a arte do totem: relativo ao palco
         var wh = wm.naturalHeight * (ww / wm.naturalWidth);
         ctx.drawImage(wm, px(sx - ww / 2), px(airH() * 0.5 - wh / 2), px(ww), px(wh));
       } else {
@@ -489,7 +497,7 @@
         ctx.font = '800 15px ' + getComputedStyle(document.body).fontFamily;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('RIVALO.', sx, airH() / 2 + 1);
+        ctx.fillText('AVIATOR', sx, airH() / 2 + 1);
       }
 
       if (showHitboxes){
