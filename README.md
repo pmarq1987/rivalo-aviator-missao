@@ -95,8 +95,11 @@ Dois ajustes foram calibrados vendo a arte em movimento, em vez de regerar arqui
 
 **Logo da marca:** `img/wordmark.svg` é o logo oficial da Rivalo em vetor, extraído do header da
 LP em produção (5 KB, branco, escala sem perder nitidez). O brand kit no Drive tem o mesmo logo em
-`rivalo-white-rgb.png`, mas raster de 33 KB — o vetor é melhor para canvas. Ele é a **marca d'água do fundo** (`CFG.logoBg`),
-reaparecendo ao longo do percurso.
+`rivalo-white-rgb.png`, mas raster de 33 KB — o vetor é melhor para canvas. A marca d'água do fundo (`CFG.logoBg`) usa
+`img/wordmark-plain.svg`: o **mesmo logo sem a moldura**. O logo oficial traz uma moldura
+arredondada em volta das letras, e a 8,5% de opacidade ela lê como um retângulo solto no céu — as
+letras sozinhas lêem como marca. `img/wordmark.svg` segue no repositório com a moldura, para quem
+precisar do logo completo.
 
 No **totem do fim do trajeto** vai o logo do **Aviator** (`img/aviator-wordmark.svg`, slot
 `goalLogo`) — é ele o destino da missão, e a marca da casa fica no cenário. A largura do logo é

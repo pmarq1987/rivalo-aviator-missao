@@ -102,7 +102,8 @@
      Slot que não carrega vira desenho vetorial. */
   var MANIFEST = {
     plane:     { local: 'plane.png',    art: true, frames: 3 },
-    wordmark:  { local: 'wordmark.svg', art: true },           // logo da Rivalo -> marca d'agua ao fundo
+    wordmark:  { local: 'wordmark-plain.svg', art: true },     // logo da Rivalo SEM moldura -> marca
+                                                               // d'agua (com moldura vira caixa no ceu)
     goalLogo:  { local: 'aviator-wordmark.svg', art: true },   // logo do Aviator -> totem do fim do trajeto
     sky:       { local: 'sky.png',        tile: true, art: true },
     far:       { local: 'far.png',        tile: true, art: true },
