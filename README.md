@@ -9,8 +9,10 @@ Sem build. Arquivos:
 |---|---|
 | `game.js` + `game.css` | o mini-game, componente independente (monta o próprio DOM) |
 | `game.html` | **sandbox**: só o jogo, com colisões visíveis e recarga de sprites |
-| `share.html` | página de divulgação: só o jogo, em EN/PT/ES, para mandar por link |
-| `index.html` | a LP: porta de idade, promo travada, resgate e rodapé legal |
+| `index.html` | home do GitHub Pages — gerada por `build-pages.sh` a partir de `share.html` |
+| `share.html` | página de divulgação (só o jogo, EN/PT/ES). Fonte do artifact e da home |
+| `lp.html` | a variante da LP: porta de idade, promo travada, resgate e rodapé legal |
+| `build-pages.sh` | embrulha `share.html` num HTML completo (head, charset, viewport) |
 | `img/PROMPTS.md` | especificação e prompts da arte (8 arquivos) |
 Os tokens de design, o CTA (`/pt/register?intent=aviator`), os links de suporte e o rodapé legal
 foram copiados da LP em produção, então o visual já bate com o resto da página.
@@ -136,6 +138,16 @@ coincidir com a borda da caixa, senão o jogador bate no que parece espaço vazi
 `?reset=1` limpa o progresso local. `?debug=1` expõe `window.__fly` com `peek/hold/step/draw/start`
 para rodar o trajeto por script — foi assim que a calibragem acima foi medida. Nenhum dos dois faz
 nada sem estar na URL; **não usar em mídia paga**.
+
+## Publicado
+
+- **GitHub Pages** (link público, abre sem login): home do repositório, gerada de `share.html`.
+  Depois de mexer em `share.html`, rode `./build-pages.sh` e commite o `index.html` gerado.
+- **Artifact do Claude** (privado, para comentar): <https://claude.ai/code/artifact/02dd1f65-94da-412e-bdf7-eed20ad36f6a>
+
+A **variante da LP mora em `lp.html`, não na home**, de propósito: ela tem os placeholders de promo
+e o rodapé legal da Rivalo, e como página inicial de um site público poderia passar por página
+oficial. O `robots.txt` bloqueia indexação do site todo.
 
 ## Compartilhar com o time
 

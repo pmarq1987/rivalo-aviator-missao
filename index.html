@@ -1,744 +1,201 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0B1931">
+<meta name="theme-color" content="#060C1A">
 <meta name="robots" content="noindex, nofollow">
-<title>Missão Aviator | Rivalo</title>
-<link rel="stylesheet" href="game.css">
-<style>
-/* ===========================================================================
-   Tokens copiados da LP /lp/aviator em produção. Ao portar para o SvelteKit,
-   apagar este bloco e usar as variáveis globais que já existem lá.
-   =========================================================================== */
-:root{
-  --primary-orange:#F68C18;
-  --primary-orange-strong:#EE8009;
-  --secondary-blue:#003366;
-  --secondary-blue-strong:#294F8E;
-  --accent-blue:#0094FF;
-  --white:#FFFFFF;
-  --bg-chrome-100:#0B1931;
-  --bg-chrome-200:#12233F;
-  --bg-chrome-300:#152A4D;
-  --neutral-25:#F7F9FD;
-  --neutral-300:#C6C6C6;
-  --ink:rgba(0,0,0,.88);
-  --ink-secondary:rgba(0,0,0,.6);
-  --ink-on-dark:var(--white);
-  --ink-on-dark-secondary:rgba(255,255,255,.6);
-  --brand-primary:var(--primary-orange);
-  --brand-primary-strong:var(--primary-orange-strong);
-  --focus-ring:var(--accent-blue);
-  --font-sans:"Inter LP",Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
-  --text-h1-size:20px;       --text-h1-line-height:26px;
-  --text-body-lg-size:15px;  --text-body-lg-line-height:21px;
-  --text-body-size:14px;     --text-body-line-height:20px;
-  --text-body-sm-size:13px;  --text-body-sm-line-height:18px;
-  --text-caption-size:12px;  --text-caption-line-height:16px;
-  --text-button-size:16px;   --text-button-line-height:20px;
-  --space-2:6px; --space-3:8px; --space-4:16px; --space-5:24px; --space-6:32px; --space-7:48px;
-  --safe-bottom:env(safe-area-inset-bottom,0px);
-}
-
-*{box-sizing:border-box}
-html,body{margin:0;padding:0}
-body{
-  background:var(--bg-chrome-100);
-  color:var(--ink-on-dark);
-  font-family:var(--font-sans);
-  font-size:var(--text-body-size);
-  line-height:var(--text-body-line-height);
-  -webkit-tap-highlight-color:transparent;
-}
-:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
-
-.lp-container{max-width:480px;margin:0 auto;padding:0 var(--space-4)}
-.lp-container--wide{max-width:480px}
-@media (min-width:900px){ .lp-container--wide{max-width:960px} }
-
-/* mission: uma coluna no mobile (promo → jogo), duas no desktop (jogo | promo) */
-.mission{display:grid;gap:var(--space-4);grid-template-areas:"promo" "game" "side"}
-.mission__promo{grid-area:promo}
-.mission__main{grid-area:game}
-.mission__side{grid-area:side}
-@media (min-width:900px){
-  .mission{
-    grid-template-columns:1.25fr .75fr;
-    grid-template-areas:"game promo" "game side";
-    grid-template-rows:auto 1fr;
-    gap:var(--space-4) var(--space-5);
-    align-items:start;
-  }
-}
-.lp-section{padding:var(--space-6) 0}
-.lp-section--subtle{background:var(--bg-chrome-200)}
-.lp-h2{font-size:var(--text-h1-size);line-height:var(--text-h1-line-height);font-weight:700;margin:0 0 var(--space-3)}
-.lp-copy{font-size:var(--text-body-size);line-height:var(--text-body-line-height);color:var(--ink-on-dark-secondary);margin:0}
-
-/* ---------- header ---------- */
-.hdr{
-  position:sticky;top:0;z-index:30;
-  background:rgba(11,25,49,.92);
-  backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-.hdr__in{
-  max-width:480px;margin:0 auto;padding:var(--space-3) var(--space-4);
-  display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);
-}
-.logo{font-size:18px;font-weight:800;letter-spacing:.4px;color:var(--white);text-decoration:none}
-.logo b{color:var(--primary-orange)}
-.age{
-  font-size:var(--text-caption-size);line-height:var(--text-caption-line-height);
-  font-weight:700;padding:5px 9px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.22);color:var(--ink-on-dark-secondary);
-}
-.age--header{white-space:nowrap;flex-shrink:0}
-.age--header .age__long{display:none}
-@media (min-width:360px){ .age--header .age__long{display:inline} }
-
-/* ---------- hero ---------- */
-.hero{
-  position:relative;overflow:hidden;
-  background:radial-gradient(120% 90% at 50% 0%,#152A4D 0%,#0B1931 70%);
-  padding:var(--space-5) 0 var(--space-4);
-  text-align:center;
-}
-.hero__plane{width:108px;max-width:34%;height:auto;margin:0 auto var(--space-2);display:block}
-@media (min-width:900px){
-  .hero{padding:var(--space-6) 0 var(--space-5)}
-  .hero__plane{width:168px}
-}
-.hero__eyebrow{
-  font-size:var(--text-caption-size);line-height:var(--text-caption-line-height);
-  font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
-  color:var(--primary-orange);margin:0 0 var(--space-2);
-}
-.hero__headline{font-size:var(--text-h1-size);line-height:var(--text-h1-line-height);font-weight:800;margin:0 0 var(--space-3)}
-.hero__lead{
-  font-size:var(--text-body-lg-size);line-height:var(--text-body-lg-line-height);
-  color:var(--ink-on-dark-secondary);margin:0;
-}
-
-/* ---------- promo travada ---------- */
-.promo{
-  position:relative;padding:var(--space-4);
-  border-radius:12px;background:var(--bg-chrome-200);
-  border:1px solid rgba(255,255,255,.1);text-align:left;
-}
-.promo__head{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3)}
-.promo__pill{
-  flex-shrink:0;
-  font-size:var(--text-caption-size);font-weight:700;padding:4px 9px;border-radius:999px;
-  background:rgba(246,140,24,.14);color:var(--primary-orange);border:1px solid rgba(246,140,24,.35);
-}
-.promo__label{
-  font-size:var(--text-caption-size);line-height:var(--text-caption-line-height);
-  text-transform:uppercase;letter-spacing:1px;color:var(--ink-on-dark-secondary);margin:0;
-}
-.promo__value{font-size:20px;line-height:26px;font-weight:800;color:var(--primary-orange);margin:var(--space-2) 0}
-.promo.is-locked .promo__value{filter:blur(8px);user-select:none}
-.promo.is-unlocked .promo__pill{background:rgba(0,148,255,.14);color:#7CC8FF;border-color:rgba(0,148,255,.4)}
-.promo__note{font-size:var(--text-body-sm-size);line-height:var(--text-body-sm-line-height);color:var(--ink-on-dark-secondary);margin:0}
-
-/* ---------- card ---------- */
-.card{
-  background:var(--bg-chrome-200);border:1px solid rgba(255,255,255,.1);
-  border-radius:12px;padding:var(--space-4);margin-bottom:var(--space-4);
-}
-.card__title{font-size:16px;line-height:22px;font-weight:700;margin:0 0 var(--space-2)}
-/* o header é fixo: sem isso o topo do cartão fica escondido atrás dele no scroll */
-.mission__main .card{scroll-margin-top:60px}
-
-/* ---------- CTA ---------- */
-.cta__btn{
-  display:flex;align-items:center;justify-content:center;
-  width:100%;min-height:52px;border:0;border-radius:10px;
-  background:var(--brand-primary);color:var(--ink);
-  font-family:inherit;font-size:var(--text-button-size);line-height:var(--text-button-line-height);
-  font-weight:700;text-align:center;text-decoration:none;
-  padding:var(--space-3) var(--space-4);cursor:pointer;
-}
-.cta__btn:active{background:var(--brand-primary-strong)}
-.cta__btn--ghost{
-  background:transparent;color:var(--white);
-  border:1px solid rgba(255,255,255,.22);min-height:44px;font-size:var(--text-body-size);
-}
-.cta__btn--ghost:active{background:rgba(255,255,255,.06)}
-.cta__rg{
-  font-size:var(--text-caption-size);line-height:var(--text-caption-line-height);
-  color:var(--ink-on-dark-secondary);text-align:center;margin:var(--space-3) 0 0;
-}
-.btn-stack{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-4)}
-.btn-stack .cta__btn{flex:1 1 140px;min-height:48px}
-
-/* ---------- textos ao redor do jogo (o jogo em si vem de game.css) ---------- */
-.fly__controls{
-  font-size:var(--text-caption-size);line-height:17px;color:var(--ink-on-dark-secondary);
-  text-align:center;margin:var(--space-3) 0 0;
-}
-.fly__fallback{
-  display:block;width:100%;margin:var(--space-3) 0 0;padding:0;border:0;background:none;
-  color:var(--ink-on-dark-secondary);font-family:inherit;font-size:var(--text-caption-size);
-  text-decoration:underline;cursor:pointer;
-}
-
-/* ---------- quiz (fallback / variante) ---------- */
-.prog{display:flex;gap:6px;margin:0 0 var(--space-3)}
-.prog__dot{flex:1;height:5px;border-radius:999px;background:#24365A;transition:background .2s ease}
-.prog__dot.is-hit{background:var(--primary-orange)}
-.prog__dot.is-miss{background:rgba(255,255,255,.22)}
-.prog__label{
-  font-size:var(--text-caption-size);line-height:var(--text-caption-line-height);
-  color:var(--ink-on-dark-secondary);text-align:center;margin:0 0 var(--space-4);
-}
-.quiz__q{font-size:var(--text-body-lg-size);line-height:21px;font-weight:700;margin:0 0 var(--space-4)}
-.quiz__opt{
-  display:block;width:100%;text-align:left;min-height:48px;
-  padding:13px var(--space-4);margin-bottom:var(--space-3);
-  border-radius:10px;background:var(--bg-chrome-300);border:1px solid rgba(255,255,255,.12);
-  color:var(--white);font-family:inherit;font-size:var(--text-body-size);line-height:20px;cursor:pointer;
-}
-.quiz__opt.is-ok{border-color:var(--primary-orange);background:rgba(246,140,24,.14)}
-.quiz__opt.is-bad{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.06);opacity:.75}
-.quiz__opt:disabled{cursor:default}
-.feedback{
-  min-height:20px;font-size:var(--text-body-sm-size);line-height:var(--text-body-sm-line-height);
-  font-weight:700;text-align:center;margin:0 0 var(--space-3);
-}
-.feedback.is-ok{color:var(--primary-orange)}
-.feedback.is-bad{color:var(--ink-on-dark-secondary)}
-
-/* ---------- código ---------- */
-.code{
-  display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);
-  background:var(--bg-chrome-300);border:1px dashed var(--primary-orange);
-  border-radius:10px;padding:var(--space-3) var(--space-4);margin:var(--space-4) 0;
-}
-.code__value{font-size:19px;font-weight:800;letter-spacing:2px;color:var(--primary-orange)}
-.code__copy{
-  background:transparent;border:1px solid rgba(255,255,255,.22);color:var(--white);
-  border-radius:8px;min-height:38px;padding:0 12px;font-family:inherit;
-  font-size:var(--text-body-sm-size);cursor:pointer;white-space:nowrap;
-}
-
-/* ---------- passos ---------- */
-.steps{margin:var(--space-4) 0 0;padding:0;list-style:none;counter-reset:s}
-.steps li{
-  position:relative;padding:0 0 var(--space-3) 34px;
-  font-size:var(--text-body-sm-size);line-height:19px;color:var(--ink-on-dark-secondary);
-}
-.steps li::before{
-  counter-increment:s;content:counter(s);
-  position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;
-  background:var(--bg-chrome-300);border:1px solid rgba(255,255,255,.14);
-  color:var(--white);font-size:12px;font-weight:700;text-align:center;line-height:22px;
-}
-
-/* ---------- avisos ---------- */
-.notice{
-  font-size:var(--text-caption-size);line-height:17px;color:var(--ink-on-dark-secondary);
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
-  border-radius:10px;padding:var(--space-3);margin:var(--space-4) 0 0;
-}
-.notice strong{color:var(--white)}
-
-/* ---------- termos ---------- */
-details{
-  background:var(--bg-chrome-200);border:1px solid rgba(255,255,255,.1);
-  border-radius:10px;padding:var(--space-3) var(--space-4);margin-bottom:var(--space-3);
-}
-summary{font-size:var(--text-body-size);font-weight:700;cursor:pointer;list-style:none;padding:5px 0}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"+";float:right;color:var(--ink-on-dark-secondary)}
-details[open] summary::after{content:"–"}
-details ul{
-  margin:var(--space-3) 0 var(--space-2);padding-left:18px;
-  font-size:var(--text-body-sm-size);line-height:19px;color:var(--ink-on-dark-secondary);
-}
-details li{margin-bottom:6px}
-
-/* ---------- rodapé ---------- */
-.ft{background:var(--bg-chrome-200);padding:var(--space-6) 0 0;margin-top:var(--space-6)}
-.ft__links{display:flex;flex-wrap:wrap;gap:var(--space-3) var(--space-4);justify-content:center;margin:0 0 var(--space-5)}
-.ft__link{font-size:var(--text-body-sm-size);color:var(--white);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.3)}
-.ft__legal{font-size:var(--text-caption-size);line-height:17px;color:var(--ink-on-dark-secondary)}
-.ft__legal p{margin:0 0 var(--space-3)}
-.band{background:var(--bg-chrome-300);margin-top:var(--space-5);padding:var(--space-4) 0}
-.band__in{
-  max-width:480px;margin:0 auto;padding:0 var(--space-4);
-  display:flex;align-items:center;justify-content:center;gap:var(--space-3);
-  font-size:var(--text-caption-size);line-height:16px;text-align:center;
-}
-.band strong{display:block;font-weight:700}
-.ft__copy{
-  font-size:var(--text-caption-size);color:var(--ink-on-dark-secondary);
-  text-align:center;padding:var(--space-4) var(--space-4) calc(var(--space-4) + var(--safe-bottom));margin:0;
-}
-
-.is-hidden{display:none !important}
-</style>
+<title>Miss&atilde;o Aviator &mdash; flight test</title>
 </head>
 <body>
 
-<header class="hdr">
-  <div class="hdr__in">
-    <a class="logo" href="/">RIVALO<b>.</b></a>
-    <span class="age age--header">18+<span class="age__long"> · Jogue com responsabilidade</span></span>
+<style>
+  /* Single dark theme on purpose: this is an arcade screen, not a document. */
+  :root{
+    color-scheme: dark;
+
+    --ground:#060C1A;
+    --panel:#0E1A31;
+    --edge:#1D2C4C;
+    --ink:#E8EDF8;
+    --muted:#8496B8;
+    --accent:#F68C18;
+    --accent-deep:#EE8009;
+    --hazard:#C0392B;
+
+    /* tokens consumed by game.css */
+    --primary-orange:var(--accent);
+    --white:#FFFFFF;
+    --ink-on-dark:var(--ink);
+    --ink-on-dark-secondary:var(--muted);
+    --bg-chrome-200:var(--panel);
+    --bg-chrome-300:#16264a;
+    --text-caption-size:12px; --text-caption-line-height:16px;
+    --text-body-size:14px; --text-body-sm-size:13px; --text-body-lg-size:15px;
+    --space-2:6px; --space-3:8px; --space-4:16px; --space-5:24px; --space-6:32px;
+
+    --display:"Haettenschweiler","Arial Narrow Bold",Impact,"Franklin Gothic Bold",sans-serif;
+    --body:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    padding:clamp(20px,5vw,48px) 16px calc(48px + env(safe-area-inset-bottom,0px));
+    background:
+      radial-gradient(120% 70% at 50% -10%, #12224180 0%, transparent 60%),
+      var(--ground);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:15px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .shell{max-width:620px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+
+  /* ---------- marquee ---------- */
+  .marquee{display:flex;flex-direction:column;gap:10px}
+  .marquee__stripe{
+    height:6px;border-radius:3px;
+    background:repeating-linear-gradient(115deg,
+      var(--accent) 0 12px, #10203C 12px 24px);
+    opacity:.85;
+  }
+  .marquee__row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 2px;
+  }
+  h1{
+    font-family:var(--display);
+    font-size:clamp(38px,9vw,58px);
+    line-height:.92;
+    letter-spacing:.02em;
+    text-transform:uppercase;
+    margin:0;
+    text-wrap:balance;
+  }
+  h1 em{font-style:normal;color:var(--accent)}
+
+  /* ---------- language ---------- */
+  .langs{display:flex;gap:6px}
+  .langs button{
+    font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    background:transparent;color:var(--muted);
+    border:1px solid var(--edge);border-radius:999px;
+    padding:7px 11px;cursor:pointer;
+  }
+  .langs button:hover{color:var(--ink);border-color:#2C4272}
+  .langs button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#10203C;font-weight:700}
+
+  /* ---------- cabinet ---------- */
+  .cabinet{
+    background:var(--panel);
+    border:1px solid var(--edge);
+    border-radius:14px;
+    padding:14px;
+    box-shadow:0 24px 60px -30px #000, inset 0 1px 0 #ffffff0d;
+  }
+
+  /* ---------- legend ---------- */
+  .legend{
+    display:flex;flex-wrap:wrap;gap:6px 18px;
+    font-family:var(--mono);font-size:12px;color:var(--muted);
+    margin:0;padding:0;list-style:none;
+  }
+  .legend b{color:var(--ink);font-weight:600}
+
+  /* ---------- note ---------- */
+  .note{
+    border-top:1px solid var(--edge);
+    padding-top:18px;
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .note p{margin:0;max-width:60ch;color:var(--muted);font-size:14px}
+  .note strong{color:var(--ink);font-weight:600}
+  .tag{
+    align-self:flex-start;
+    font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--hazard);border:1px solid #4A2220;background:#2A1414;
+    border-radius:4px;padding:4px 8px;
+  }
+
+  .facts{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:1px;
+    background:var(--edge);border:1px solid var(--edge);border-radius:10px;overflow:hidden;
+  }
+  .fact{background:var(--panel);padding:12px 14px}
+  .fact dt{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 4px}
+  .fact dd{margin:0;font-size:15px;font-variant-numeric:tabular-nums}
+
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<link rel="stylesheet" href="game.css">
+
+<div class="shell">
+
+  <header class="marquee">
+    <div class="marquee__stripe" aria-hidden="true"></div>
+    <div class="marquee__row">
+      <div>
+        <p class="eyebrow">Rivalo &middot; internal prototype</p>
+        <h1>Miss&atilde;o <em>Aviator</em></h1>
+      </div>
+      <div class="langs" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="pt" aria-pressed="false">PT</button>
+        <button type="button" data-lang="es" aria-pressed="false">ES</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="cabinet">
+    <div id="flyRoot"></div>
   </div>
-</header>
 
-<main>
+  <ul class="legend">
+    <li><b>Hold</b> anywhere on the screen to climb</li>
+    <li><b>Release</b> to descend</li>
+    <li><b>Space</b> or <b>&uarr;</b> on desktop</li>
+  </ul>
 
-  <!-- ======================= HERO ======================= -->
-  <section class="hero">
-    <div class="lp-container">
-      <img class="hero__plane" src="https://www.rivalo.bet.br/lp/img/aviator-plane.svg" alt="" width="380" height="231" loading="eager" decoding="sync">
-      <p class="hero__eyebrow">Missão Aviator</p>
-      <h1 class="hero__headline">Voe até o logo da Rivalo e libere sua promo</h1>
-      <p class="hero__lead">Pilote o avião pelo aeródromo até o totem da Rivalo e destrave o código da promo. Grátis, sem aposta, sem sorteio e com tentativas ilimitadas.</p>
-    </div>
+  <section class="note">
+    <span class="tag">Prototype &mdash; not a live page</span>
+    <p>
+      A landing page variant where the visitor has to <strong>fly a plane through an airfield to the
+      Rivalo logo</strong> before a promo code unlocks. This page is the game on its own, without the
+      landing page around it, so it is easy to try and comment on.
+    </p>
+    <p>
+      The course is <strong>identical for every player</strong> &mdash; no randomness, so the result depends
+      only on how you fly. Crashing costs nothing and restarts instantly.
+    </p>
+    <dl class="facts">
+      <div class="fact"><dt>Perfect run</dt><dd>8.3 s</dd></div>
+      <div class="fact"><dt>Gates</dt><dd>6</dd></div>
+      <div class="fact"><dt>Attempts</dt><dd>Unlimited</dd></div>
+    </dl>
   </section>
 
-  <!-- ======================= MISSÃO ======================= -->
-  <section class="lp-section lp-section--subtle">
-    <div class="lp-container lp-container--wide">
-      <div class="mission">
-
-      <div class="mission__promo">
-        <div class="promo is-locked" id="promo">
-          <div class="promo__head">
-            <p class="promo__label">Sua promo</p>
-            <span class="promo__pill" id="promoPill">Travado</span>
-          </div>
-          <p class="promo__value" id="promoValue">{{PROMO_NOME}} de {{PROMO_VALOR}}</p>
-          <p class="promo__note">Disponível para novos jogadores, maiores de 18 anos, com conta verificada. Sujeito aos termos desta página.</p>
-        </div>
-      </div>
-
-      <div class="mission__main">
-
-      <!-- 1. porta de idade -->
-      <div class="card" id="gate">
-        <h2 class="card__title">Antes de começar</h2>
-        <p class="lp-copy">Apostas e jogos de cassino são permitidos apenas para maiores de 18 anos. Você tem 18 anos ou mais?</p>
-        <div class="btn-stack">
-          <button class="cta__btn" id="gateYes" type="button">Sim, tenho 18+</button>
-          <button class="cta__btn cta__btn--ghost" id="gateNo" type="button">Não tenho</button>
-        </div>
-      </div>
-
-      <div class="card is-hidden" id="gateBlock">
-        <h2 class="card__title">Conteúdo para maiores de 18 anos</h2>
-        <p class="lp-copy">Esta promoção e os jogos da Rivalo são exclusivos para maiores de 18 anos. Não é possível continuar.</p>
-      </div>
-
-      <!-- 2a. mini-game (padrão) -->
-      <div class="card is-hidden" id="gameFly">
-        <h2 class="card__title">Como jogar</h2>
-        <p class="lp-copy" style="margin-bottom:var(--space-4)">Segure para subir, solte para descer. Passe pelos vãos entre as torres e chegue no totem da Rivalo.</p>
-
-        <div id="flyRoot"></div>
-
-        <div class="fly">
-          <p class="fly__controls">No computador: barra de espaço ou seta para cima.</p>
-          <button class="fly__fallback" id="flyFallback" type="button">Não consigo jogar agora — quero responder 3 perguntas</button>
-        </div>
-
-        <p class="notice">
-          Mini-game de arcade desta página. <strong>Não é o jogo Aviator</strong>: não envolve aposta, não paga prêmio
-          em dinheiro e o resultado aqui não tem relação nenhuma com rodadas reais. No Aviator de verdade, cada rodada
-          é gerada por RNG certificado — não existe habilidade, sinal ou padrão que dê vantagem.
-        </p>
-      </div>
-
-      <!-- 2b. quiz (fallback de acessibilidade e variante ?mech=quiz) -->
-      <div class="card is-hidden" id="gameQuiz">
-        <h2 class="card__title">Desafio: 3 perguntas</h2>
-        <p class="lp-copy" style="margin-bottom:var(--space-4)">Acerte as três para liberar a promo. Errou? Pode tentar de novo, quantas vezes quiser.</p>
-
-        <div class="prog" id="quizProg" aria-label="Progresso da missão">
-          <span class="prog__dot"></span><span class="prog__dot"></span><span class="prog__dot"></span>
-        </div>
-        <p class="prog__label" id="quizRound">Pergunta 1 de 3</p>
-
-        <p class="quiz__q" id="quizQuestion"></p>
-        <div id="quizOptions"></div>
-        <p class="feedback" id="quizFeedback" role="status" aria-live="polite"></p>
-        <button class="cta__btn cta__btn--ghost is-hidden" id="quizNext" type="button">Continuar</button>
-      </div>
-
-      <!-- 3. missão cumprida -->
-      <div class="card is-hidden" id="done">
-        <h2 class="card__title">Missão cumprida</h2>
-        <p class="lp-copy">Promo liberada. Informe o código no cadastro para resgatar.</p>
-
-        <div class="code">
-          <span class="code__value" id="promoCode">{{CODIGO}}</span>
-          <button class="code__copy" id="copyBtn" type="button">Copiar</button>
-        </div>
-
-        <a class="cta__btn" id="ctaFinal" href="https://www.rivalo.bet.br/pt/register?intent=aviator">Criar conta e resgatar</a>
-        <p class="cta__rg">18+ · Jogue com responsabilidade</p>
-
-        <ol class="steps">
-          <li>Crie sua conta com seus dados e CPF.</li>
-          <li>Faça a verificação de identidade pelo celular.</li>
-          <li>Informe o código <strong id="codeInline">{{CODIGO}}</strong> e deposite via Pix a partir de {{DEPOSITO_MINIMO}}.</li>
-          <li>Cumpra o rollover de {{ROLLOVER}} em até {{PRAZO}}.</li>
-        </ol>
-
-        <p class="notice">
-          A promo não é garantia de ganho. <strong>Aposta não é investimento</strong> e pode gerar perdas.
-          Defina seus limites de depósito e de perda antes de jogar.
-        </p>
-      </div>
-
-      <!-- 4. quiz errado -->
-      <div class="card is-hidden" id="failed">
-        <h2 class="card__title">Quase!</h2>
-        <p class="lp-copy">Você não bateu a meta desta vez. A missão é gratuita — pode tentar de novo agora mesmo.</p>
-        <button class="cta__btn" id="retryBtn" type="button" style="margin-top:var(--space-4)">Tentar de novo</button>
-      </div>
-
-      </div><!-- /mission__main -->
-
-      <div class="mission__side">
-        <div class="card" style="margin-bottom:0">
-          <h2 class="card__title">Você no controle</h2>
-          <p class="lp-copy">Limites de depósito e de perda, lembretes de sessão e autoexclusão. Tudo configurável na sua conta, a qualquer momento.</p>
-        </div>
-      </div>
-
-      </div><!-- /mission -->
-    </div>
-  </section>
-
-  <!-- ======================= TERMOS ======================= -->
-  <section class="lp-section lp-section--subtle">
-    <div class="lp-container">
-      <details>
-        <summary>Regras da missão</summary>
-        <ul>
-          <li>A missão é um mini-game gratuito desta página, sem aposta e sem prêmio em dinheiro.</li>
-          <li>Tentativas ilimitadas: bater num obstáculo só reinicia o trajeto.</li>
-          <li>Chegar ao logo libera apenas o código promocional — não gera saldo automático.</li>
-          <li>O resgate depende de conta criada, verificada e dos requisitos da promoção.</li>
-          <li>1 promo por CPF, por conta e por dispositivo.</li>
-          <li>A Rivalo pode encerrar a campanha ou cancelar resgates com indício de fraude ou multicontas.</li>
-        </ul>
-      </details>
-      <details>
-        <summary>Termos da promoção</summary>
-        <ul>
-          <li>Válido para novos jogadores, maiores de 18 anos, residentes no Brasil, com conta verificada.</li>
-          <li>Depósito mínimo: {{DEPOSITO_MINIMO}} · Rollover: {{ROLLOVER}} · Prazo: {{PRAZO}}.</li>
-          <li>Jogos elegíveis: {{JOGOS_ELEGIVEIS}}.</li>
-          <li>Termos completos: {{LINK_TERMOS_PROMO}}.</li>
-        </ul>
-      </details>
-    </div>
-  </section>
-
-  <!-- ======================= RODAPÉ ======================= -->
-  <footer class="ft">
-    <div class="lp-container">
-      <nav class="ft__links">
-        <a class="ft__link" href="https://suporte.rivalo.bet.br/hc/pt-br/articles/29996800138385-Termos-e-Condi%C3%A7%C3%B5es-Gerais-de-Uso">Termos &amp; Condições</a>
-        <a class="ft__link" href="https://suporte.rivalo.bet.br/hc/pt-br/articles/30305689851281-Pol%C3%ADtica-de-Privacidade">Política de Privacidade</a>
-        <a class="ft__link" href="https://suporte.rivalo.bet.br/hc/pt-br/articles/29996896237201-Pol%C3%ADtica-de-Cookies">Política de Cookies</a>
-        <a class="ft__link" href="https://suporte.rivalo.bet.br/hc/pt-br/articles/29789932811665-Pol%C3%ADtica-de-Jogo-Respons%C3%A1vel">Jogo Responsável</a>
-        <a class="ft__link" href="https://suporte.rivalo.bet.br/hc/pt-br">Centro de Ajuda</a>
-      </nav>
-
-      <div class="ft__legal">
-        <p><strong>Identificação do operador</strong></p>
-        <p>A marca Rivalo é operada pela Olavir Ltda desde 01.01.2025, CNPJ: 56.873.267/0001-48, com licença definitiva concedida pela Secretaria de Prêmios e Apostas do Ministério da Fazenda “SPA/MF”, por meio da Portaria SPA/MF nº 264, de 07 de fevereiro de 2025, para operação exclusiva em todo o território brasileiro.</p>
-        <p>A sede da Olavir Ltda está localizada na Rua Artur de Azevedo, nº 1.877, 11º Andar, São Paulo-SP.</p>
-        <p>É proibido o uso de benefício social para a realização de apostas.</p>
-        <p>Seus dados pessoais são tratados conforme a LGPD (Lei nº 13.709/2018).</p>
-      </div>
-    </div>
-
-    <div class="band">
-      <div class="band__in">
-        <span class="age">18+</span>
-        <span class="band__text"><strong>Ministério da Fazenda adverte:</strong> Aposta não é investimento</span>
-      </div>
-    </div>
-
-    <p class="ft__copy">© 2026 Rivalo. Todos os direitos reservados.</p>
-  </footer>
-
-</main>
+</div>
 
 <script src="game.js"></script>
 <script>
-(function(){
-  'use strict';
+  var jogo = RivaloFly.mount(document.getElementById('flyRoot'), { art: true, lang: 'en' });
 
-  /* =========================================================================
-     CONFIG — marketing e compliance editam só daqui
-     ========================================================================= */
-  var CONFIG = {
-    campaign:   'lp-aviator-missao',
-    promoCode:  'AVIATOR',
-    ctaUrl:     'https://www.rivalo.bet.br/pt/register?intent=aviator',
-    mechanic:   'fly',            // 'fly' (mini-game) | 'quiz' (fallback) — ?mech= sobrepõe
-    quiz: { requiredHits: 3 }
-    /* física e trajeto do mini-game: CFG em game.js */
-  };
-
-  var STORE_KEY = 'rivalo_lp_aviator_missao_v1';
-
-  /* ------------------------------------------------------------------ utils */
-  function $(id){ return document.getElementById(id); }
-  function show(el){ el.classList.remove('is-hidden'); }
-  function hide(el){ el.classList.add('is-hidden'); }
-  function clamp(v, a, b){ return v < a ? a : (v > b ? b : v); }
-
-  function load(){
-    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e){ return {}; }
-  }
-  function save(state){
-    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e){}
-  }
-
-  /* GTM (dataLayer) + PostHog: os dois já rodam nas LPs de produção */
-  function track(event, data){
-    var payload = { campaign: CONFIG.campaign, mechanic: CONFIG.mechanic };
-    for (var k in data){ if (Object.prototype.hasOwnProperty.call(data, k)) payload[k] = data[k]; }
-
-    window.dataLayer = window.dataLayer || [];
-    var dl = { event: event };
-    for (var j in payload){ if (Object.prototype.hasOwnProperty.call(payload, j)) dl[j] = payload[j]; }
-    window.dataLayer.push(dl);
-
-    if (window.posthog && typeof window.posthog.capture === 'function'){
-      window.posthog.capture(event, payload);
-    }
-  }
-
-  var params = new URLSearchParams(location.search);
-  var mech = params.get('mech');
-  if (mech === 'quiz' || mech === 'fly') CONFIG.mechanic = mech;
-
-  function buildCtaUrl(){
-    var url = CONFIG.ctaUrl;
-    var qs = new URLSearchParams({
-      promo:        CONFIG.promoCode,
-      utm_source:   params.get('utm_source')   || 'lp',
-      utm_medium:   params.get('utm_medium')   || 'landing',
-      utm_campaign: params.get('utm_campaign') || CONFIG.campaign,
-      utm_content:  CONFIG.mechanic
-    });
-    return url + (url.indexOf('?') === -1 ? '?' : '&') + qs.toString();
-  }
-
-  /* --------------------------------------------------------------- estados */
-  function unlock(){
-    var promo = $('promo');
-    promo.classList.remove('is-locked');
-    promo.classList.add('is-unlocked');
-    $('promoPill').textContent = 'Liberado';
-
-    $('promoCode').textContent = CONFIG.promoCode;
-    $('codeInline').textContent = CONFIG.promoCode;
-    $('ctaFinal').href = buildCtaUrl();
-
-    hide($('gameFly')); hide($('gameQuiz')); hide($('failed'));
-    show($('done'));
-
-    var state = load(); state.completed = true; save(state);
-    track('lp_mission_complete', {});
-  }
-
-  function fail(){
-    hide($('gameQuiz'));
-    show($('failed'));
-    track('lp_mission_failed', {});
-  }
-
-  function startMission(){
-    hide($('gate')); hide($('failed'));
-    if (CONFIG.mechanic === 'quiz'){ hide($('gameFly')); show($('gameQuiz')); startQuiz(); }
-    else { hide($('gameQuiz')); show($('gameFly')); Fly.init(); }
-    track('lp_mission_start', {});
-    focusMission();
-  }
-
-  /* traz a missão para a tela — sem isso, no celular o jogo nasce abaixo da dobra.
-     Salto instantâneo de propósito: o cartão da porta de idade desaparece no mesmo
-     toque, então a leitura é clara, e não há animação para o jogador tocar em cima. */
-  function focusMission(){
-    var card = CONFIG.mechanic === 'quiz' ? $('gameQuiz') : $('gameFly');
-    try { card.scrollIntoView({ behavior: 'auto', block: 'start' }); }
-    catch(e){ card.scrollIntoView(); }
-  }
-
-  /* =========================================================================
-     MECÂNICA 1 (padrão) — mini-game: leve o avião até o logo da Rivalo.
-     Trajeto fixo (sem sorteio): o resultado depende só do jogador, e todo
-     mundo enfrenta exatamente o mesmo percurso.
-     ========================================================================= */
-  /* =========================================================================
-     MECÂNICA 1 (padrão) — mini-game (game.js). Trajeto fixo, sem sorteio:
-     o resultado depende só de quem pilota e todos enfrentam o mesmo percurso.
-     ========================================================================= */
-  var Fly = {
-    instance: null,
-    init: function(){
-      if (this.instance){ this.instance.restart(); return; }
-      this.instance = RivaloFly.mount($('flyRoot'), {
-        /* a arte de img/ está no repositório; ?art=0 força o desenho vetorial de reserva */
-        art: params.get('art') !== '0',
-        onEvent: function(nome, dados){ track(nome, dados); },
-        onWin: function(){ setTimeout(unlock, 900); }
+  document.querySelectorAll('.langs button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.langs button').forEach(function (o) {
+        o.setAttribute('aria-pressed', String(o === b));
       });
-    }
-  };
-
-  /* =========================================================================
-     MECÂNICA 2 — quiz de 3 perguntas.
-     Serve como fallback de acessibilidade (quem não consegue jogar) e como
-     variante de teste A/B. As respostas reforçam a mensagem da própria LP.
-     ========================================================================= */
-  var QUESTIONS = [
-    {
-      q: 'A partir de qual idade é permitido apostar no Brasil?',
-      options: ['16 anos', '18 anos', '21 anos'],
-      correct: 1,
-      why: 'Isso mesmo: apostas são exclusivas para maiores de 18 anos.'
-    },
-    {
-      q: 'Qual ferramenta ajuda você a controlar quanto gasta?',
-      options: ['Limite de depósito', 'Apostar valores maiores', 'Jogar mais rodadas seguidas'],
-      correct: 0,
-      why: 'Certo. O limite de depósito é a forma mais simples de manter o controle.'
-    },
-    {
-      q: 'No Aviator, o resultado de cada rodada é definido por…',
-      options: ['padrões que se repetem', 'um RNG certificado — não dá para prever', 'sua sequência de apostas'],
-      correct: 1,
-      why: 'Exato. Cada rodada é aleatória e independente: nenhum sinal ou estratégia prevê o resultado.'
-    }
-  ];
-
-  var Q = { index: 0, results: [] };
-
-  function paintDots(container, results, total){
-    var dots = container.querySelectorAll('.prog__dot');
-    for (var i = 0; i < dots.length; i++){
-      dots[i].className = 'prog__dot';
-      if (i >= total) hide(dots[i]); else show(dots[i]);
-      if (results[i] === true)  dots[i].classList.add('is-hit');
-      if (results[i] === false) dots[i].classList.add('is-miss');
-    }
-  }
-
-  function startQuiz(){ Q.index = 0; Q.results = []; renderQuestion(); }
-
-  function renderQuestion(){
-    var item = QUESTIONS[Q.index];
-    paintDots($('quizProg'), Q.results, QUESTIONS.length);
-    $('quizRound').textContent = 'Pergunta ' + (Q.index + 1) + ' de ' + QUESTIONS.length;
-    $('quizQuestion').textContent = item.q;
-    $('quizFeedback').textContent = '';
-    $('quizFeedback').className = 'feedback';
-    hide($('quizNext'));
-
-    var box = $('quizOptions');
-    box.innerHTML = '';
-    item.options.forEach(function(label, i){
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'quiz__opt';
-      b.textContent = label;
-      b.addEventListener('click', function(){ answerQuiz(i); });
-      box.appendChild(b);
+      jogo.setLang(b.dataset.lang);
     });
-  }
-
-  function answerQuiz(choice){
-    var item = QUESTIONS[Q.index];
-    var hit  = choice === item.correct;
-    var opts = $('quizOptions').querySelectorAll('.quiz__opt');
-
-    for (var i = 0; i < opts.length; i++){
-      opts[i].disabled = true;
-      if (i === item.correct) opts[i].classList.add('is-ok');
-      else if (i === choice)  opts[i].classList.add('is-bad');
-    }
-
-    Q.results.push(hit);
-    paintDots($('quizProg'), Q.results, QUESTIONS.length);
-
-    var fb = $('quizFeedback');
-    fb.className = 'feedback ' + (hit ? 'is-ok' : 'is-bad');
-    fb.textContent = hit ? item.why : 'A resposta certa é: ' + item.options[item.correct] + '.';
-    track('lp_mission_round', { round: Q.index + 1, hit: hit });
-
-    if (!hit) { setTimeout(fail, 1600); return; }
-    if (Q.results.filter(Boolean).length >= CONFIG.quiz.requiredHits) { setTimeout(unlock, 900); return; }
-
-    show($('quizNext'));
-  }
-
-  /* ------------------------------------------------------------- bindings */
-  $('gateYes').addEventListener('click', function(){
-    var state = load(); state.ageOk = true; save(state);
-    track('lp_age_gate', { answer: '18plus' });
-    startMission();
   });
-
-  $('gateNo').addEventListener('click', function(){
-    hide($('gate')); show($('gateBlock'));
-    track('lp_age_gate', { answer: 'under18' });
-  });
-
-  $('flyFallback').addEventListener('click', function(){
-    CONFIG.mechanic = 'quiz';
-    hide($('gameFly'));
-    show($('gameQuiz'));
-    startQuiz();
-    track('lp_mission_fallback', {});
-    focusMission();
-  });
-
-  $('quizNext').addEventListener('click', function(){ Q.index++; renderQuestion(); });
-  $('retryBtn').addEventListener('click', startMission);
-
-  $('copyBtn').addEventListener('click', function(){
-    var btn = this;
-    var done = function(){ btn.textContent = 'Copiado'; setTimeout(function(){ btn.textContent = 'Copiar'; }, 1800); };
-    if (navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(CONFIG.promoCode).then(done, done);
-    } else { done(); }
-    track('lp_promo_code_copy', {});
-  });
-
-  $('ctaFinal').addEventListener('click', function(){ track('lp_cta_click', { code: CONFIG.promoCode }); });
-
-  /* ------------------------------------------------------------------ boot */
-  /* ?reset=1 limpa o progresso local — atalho de QA, não usar em mídia paga */
-  if (params.get('reset') === '1'){
-    try { localStorage.removeItem(STORE_KEY); } catch(e){}
-  }
-
-  if (params.get('debug') === '1'){
-    window.__flyGame = Fly;
-    document.addEventListener('DOMContentLoaded', function(){});
-  }
-
-  /* arte do mini-game em background: quando a idade for respondida, já está pronta */
-  if (window.RivaloFly && CONFIG.mechanic === 'fly') RivaloFly.preload('img/', params.get('art') !== '0');
-
-  var saved = load();
-  if (saved.completed){ hide($('gate')); unlock(); }
-  track('lp_view', {});
-})();
 </script>
 </body>
 </html>
