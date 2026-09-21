@@ -18,6 +18,12 @@
   border:1px solid rgba(255,255,255,.12);
   background:#0E1F3C;
   cursor:pointer;
+  /* jogar exige segurar o dedo por segundos: sem isto o iOS abre a lupa de
+     selecao de texto e o Android pisca o realce de toque no meio da partida */
+  -webkit-tap-highlight-color:transparent;
+  -webkit-touch-callout:none;
+  user-select:none;
+  -webkit-user-select:none;
 }
 
 .fly__bar{
