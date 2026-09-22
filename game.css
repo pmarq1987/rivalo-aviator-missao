@@ -42,6 +42,22 @@
   background:rgba(11,25,49,.72);pointer-events:none;z-index:2;
 }
 .fly__overlay.is-hidden{display:none}
+
+/* Versao discreta: usada quando o jogador precisa VER a cena para decidir
+   (no modo de um toque, o overlay cheio escurecia a cena e tapava o alvo). */
+.fly__overlay--slim{
+  background:linear-gradient(180deg,rgba(11,25,49,.85) 0%,rgba(11,25,49,0) 100%);
+  justify-content:flex-start;
+  gap:2px;
+  padding:10px var(--space-4) 0;
+}
+.fly__overlay--slim .fly__overlayTitle{font-size:var(--text-body-size)}
+.fly__overlay--slim .fly__tapHint{
+  margin-top:4px;padding:5px 11px;
+  background:transparent;color:var(--primary-orange);
+  border:1px solid rgba(246,140,24,.5);
+  font-size:var(--text-caption-size);
+}
 .fly__overlayTitle{font-size:var(--text-body-lg-size);line-height:21px;font-weight:800;margin:0;color:var(--white)}
 .fly__overlayText{font-size:var(--text-body-sm-size);line-height:18px;color:var(--ink-on-dark-secondary);margin:0}
 .fly__tapHint{

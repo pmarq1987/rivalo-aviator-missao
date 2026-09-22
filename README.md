@@ -9,6 +9,7 @@ Sem build. Arquivos:
 |---|---|
 | `game.js` + `game.css` | o mini-game, componente independente (monta o próprio DOM) |
 | `game.html` | **sandbox**: só o jogo, com colisões visíveis e recarga de sprites |
+| `tap.js` + `tap.html` | **versão de um toque**: escolher um alvo, tocar, acertar, prêmio |
 | `index.html` | home do GitHub Pages — gerada por `build-pages.sh` a partir de `share.html` |
 | `share.html` | página de divulgação (só o jogo, EN/PT/ES). Fonte do artifact e da home |
 | `lp.html` | a variante da LP: porta de idade, promo travada, resgate e rodapé legal |
@@ -153,6 +154,22 @@ nada sem estar na URL; **não usar em mídia paga**.
 A **variante da LP mora em `lp.html`, não na home**, de propósito: ela tem os placeholders de promo
 e o rodapé legal da Rivalo, e como página inicial de um site público poderia passar por página
 oficial. O `robots.txt` bloqueia indexação do site todo.
+
+## Duas mecânicas, funis opostos
+
+| | Missão (game.js) | Um toque (tap.js) |
+|---|---|---|
+| O que pede | perícia: pilotar por 6 vãos | uma decisão: escolher 1 de 3 alvos |
+| Fracasso | existe, e é o motor do retry | não existe — ninguém erra |
+| Duração | 8,3 s no percurso perfeito | ~1,5 s até o prêmio |
+| Aposta | engajamento maior, desistência maior | atrito mínimo antes do cadastro |
+
+A de um toque nasceu da referência da Esportes da Sorte (chute a gol em ativação de bar): lá o jogo
+é um **reveal disfarçado de jogo** — "TOQUE PARA CHUTAR", "GOOOL!", "VOCÊ GANHOU", cadastro. Ela
+reaproveita todos os sprites do jogo grande via `RivaloFly.assets()`, mesmo cache, sem download extra.
+
+O que decide entre as duas não é gosto, é **cadastro por visita**. Rodar as duas com o mesmo prêmio
+e a mesma origem de tráfego responde em poucos dias.
 
 ## Compartilhar com o time
 

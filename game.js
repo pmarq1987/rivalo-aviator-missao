@@ -777,6 +777,9 @@
   global.RivaloFly = {
     mount: mount,
     preload: function(base, withArt){ getAssets(base || 'img/', !!withArt, function(){}); },
+    /* entrega o mapa de sprites ja carregado (mesmo cache), para outros modos de
+       jogo reaproveitarem a arte sem baixar de novo */
+    assets: function(base, withArt, cb){ getAssets(base || 'img/', !!withArt, cb); },
     CFG: CFG,
     MANIFEST: MANIFEST
   };
